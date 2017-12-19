@@ -323,9 +323,6 @@ if isfield(info,'ImageComments')
 	if strncmpi(info.ImageComments,'Blood Flow',10)
 		DCSlogmsg('Detected a Siemens Blood Flow image - smoothing to remove NaN values')
 		vol(vol<0) = nan;
-		res = 2;
-		vol = smooth3d(vol,hdr,res,[],true);
-		hdr.resolution = res;
 		if ~isempty(strfind(info.ImageComments,'ml/100ml/min'))
 			hdr.quant_dynamic = hdr.quant_dynamic/100; % Convert to ml/min/g units
 		end
@@ -334,8 +331,8 @@ if isfield(info,'ImageComments')
 	end
 end
 
-
-if ~hdr.longitudinalFlip % 
+%% Flip image as required to achieve standard anatomical orientation with head at slice 1
+if ~hdr.longitudinalFlip 
 	for i=1:hdr.nframes % one frame at a time to accomodate low memory.
 		vol(:,:,:,i) = flip(vol(:,:,:,i),3);
 	end

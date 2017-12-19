@@ -112,7 +112,17 @@ if strcmpi(flag,'start') || strcmpi(flag,'refresh')
 		try fclose(DCSVars.logfileh); catch, end
 	end
 		
-	% Default options
+	%% Default options
+	
+	% the root directory based on the OS
+	if strncmp(computer,'PC',2)
+		rootdir = 'C:\';
+	else  % isunix
+		tdir = pwd;
+		!cd $home
+		roordir = pwd;
+		cd(tdir);
+	end
 	DCSVars = struct('version','2.2',...
 		'indir',[rootdir 'DICOMImport'],...
 		'outdir',[rootdir 'DataStash'],...
@@ -121,7 +131,7 @@ if strcmpi(flag,'start') || strcmpi(flag,'refresh')
 		'cleanup',true,...
 		'overwrite',false);
 
-	% Load options file if it exists
+	%% Load options file if it exists
 	if nargin<2
 		if isdeployed
 			path = pwd;
@@ -154,6 +164,7 @@ if strcmpi(flag,'start') || strcmpi(flag,'refresh')
 		optfile = '';
 	end
 
+	%% Startup log messages
 	filename = [DCSVars.logdir filesep 'ConvertServerLog' datestr(now,'yyyy-mmm-dd') '.txt'];
 	if ~exist(DCSVars.logdir,'dir')
 		mkdir(DCSVars.logdir);
@@ -207,6 +218,7 @@ if strcmpi(flag,'start') || strcmpi(flag,'refresh')
 		DCSlogmsg(['Temporary directory created: ' DCSVars.tempdir]);
 	end
 
+	%% Initialize data structures
 	% dicom dictionary settings and respective codes
 	DCSVars.dict = {'SeriesInstanceUID',...
 		'ImageIndex',...
@@ -252,6 +264,8 @@ if strcmpi(flag,'start') || strcmpi(flag,'refresh')
 		try	fclose(DCSVars.logfileh);	catch, end
 	end
 	
+	
+	
 % Stop flag	- the user closed the log window (loDCSlogmsg) indicating to
 % terminate the server
 elseif strcmpi(flag,'stop') 
@@ -266,6 +280,8 @@ elseif strcmpi(flag,'stop')
 		delete(DCSlogmsg);
 	end
 	
+	
+	
 % Kill flag - clean up and terminate the server
 elseif strcmpi(flag,'kill')
 	
@@ -278,6 +294,8 @@ else
 end
 
 
+
+% Wrapper function to handle handshake operations for precessing status
 function fcount = directoryCheckWrapper(varargin)
 global DCSVars
 set(DCSlogmsg,'UserData','Processing'); % Indicate that in middle of operation
@@ -289,7 +307,7 @@ else
 end
 
 
-%% Routine for checking the incoming directory for new DICOMs to process
+% Routine for checking the incoming directory for new DICOMs to process
 function fcount = directoryCheck(obj, event, string_arg)
 global DCSVars 
 
@@ -521,6 +539,17 @@ end
 DCSVars.currentfname = ''; % this is no longer the current file to process
 
 
+%% Switch string to title case
+function str = titleCase(str)
+str = lower(str);
+indx = [0 find(str==' ')];
+for i=1:length(indx)
+	if length(str)>indx(i)
+		str(indx(i)+1) = upper(str(indx(i)+1));
+	end
+end
 
+
+%% Checks if user requested to close the server
 function status = serverStopRequested(DCSVars)
 status = strcmpi(get(DCSVars.timerh,'Running'),'off');

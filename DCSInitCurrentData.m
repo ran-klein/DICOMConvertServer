@@ -24,7 +24,10 @@
 
 function DCSCurrentData = DCSInitCurrentData(source)
 
-[DCSCurrentData.hdr, DCSCurrentData.infodcm] = hdrInitDcm(source); % get header information
+[DCSCurrentData.hdr, DCSCurrentData.infodcm, messages] = hdrInitDcm(source); % get header information
+for i=1:length(messages)
+	DCSlogmsg(messages{i});
+end
 DCSCurrentData.chklist = [];
 
 %% Determine the method for assigining slice (3rd dimension) in dynamic volume

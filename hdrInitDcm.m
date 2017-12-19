@@ -9,6 +9,7 @@
 % Output arguments:
 % hdr - the proprietery header structure
 % infodcm - the DICOM header structure
+% messages - a cell of strings with returned messages
 %
 % See also: DCSInitCurrentData
 
@@ -23,8 +24,9 @@
 % *                                                                                                                 *
 % *******************************************************************************************************************
 
-function [hdr, infodcm] = hdrInitDcm(fname)
+function [hdr, infodcm, messages] = hdrInitDcm(fname)
 
+messages = {};
 infodcm = dicominfo(fname);
 
 %% Date and Time
@@ -165,7 +167,7 @@ elseif isfield(infodcm,'ConvolutionKernel')
 elseif ~isempty(infodcm.Manufacturer)
 	resolution = intrinsicResolution(infodcm);
 else
-	disp('This file doesn''t even contain a manufacturer field!');
+	messages = [messages; ('This file doesn''t even contain a manufacturer field!')];
 	resolution = nan;
 end
 
@@ -424,7 +426,7 @@ switch upper(image_units)
 	case {'HU'}
 		image_units = 'HU';
 	otherwise
-		dispPB(['Unmanaged image units detected: ' image_units]);
+		messages = [messages; (['Unmanaged image units detected: ' image_units])];
 end
 	
 
@@ -448,7 +450,32 @@ hdr = struct('filename',fname,...
 	'studyID',infodcm.StudyID,'examType',seriesType,'modality',infodcm.Modality,...
 	'image_type',imagetype,'transverseRotation',transverseRotation,'longitudinalFlip',longitudeFlip);
 
+%% Completes the fields in the data structure using the default data.
+function data = completeStructData(data,defdata)
 
+if ~isempty(defdata)
+	if isempty(data)
+		data = defdata;
+	else
+		fnames = fieldnames(defdata);
+		for i = 1:length(fnames)
+			if isstruct(defdata.(fnames{i})) % the field is a structure
+				if isfield(data,fnames{i})
+					data.(fnames{i}) = completeStructData(data.(fnames{i}),defdata.(fnames{i}));
+				else
+					data.(fnames{i}) = defdata.(fnames{i});
+				end
+			else
+				if ~isfield(data,fnames{i}) || isempty(data.(fnames{i})) ||...
+						(ischar(data.(fnames{i})) && (strcmpi(data.(fnames{i}),'Automatically Choose') ||...
+						strcmpi(data.(fnames{i}),'Default Option') ||...
+						strcmpi(data.(fnames{i}),'Default'))) % use default values
+					data.(fnames{i}) = defdata.(fnames{i});
+				end
+			end % isstruct
+		end % field loop
+	end % isempty data
+end
 
 %% Intrinsic resolution is not recovered from DICOM - use lookup data
 function imgResolution = intrinsicResolution(infodcm)
@@ -466,4 +493,15 @@ switch upper(infodcm.Manufacturer)
 		imgResolution = 1.6; %mm
 	case {'MEDISO'}
 		imgResolution = 0; %mm
+end
+
+%% Determine the patient sex
+function sex = resolveSex(str)
+switch lower(str)
+	case {'m','male'}
+		sex = 'Male';
+	case {'f','female'}
+		sex = 'Female';
+	otherwise
+		sex = '';
 end
