@@ -1,0 +1,130 @@
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration file="C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server\DICOMConvertServer.prj" location="C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server" name="DICOMConvertServer" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>DICOMConvertServer</param.appname>
+    <param.icon />
+    <param.icons />
+    <param.version>2.0</param.version>
+    <param.authnamewatermark>Ran Klein</param.authnamewatermark>
+    <param.email>rklein@toh.ca</param.email>
+    <param.company>Univsersity of Ottawa Heart Institute</param.company>
+    <param.summary>A server program that converts DICOM series in an incoming directory to Matlab .mat files in an output directory.</param.summary>
+    <param.description>This is a standalone program that can be configured to monitor a directory for DICOm series (multipl files each) and convert each series into its own .mat file in the output directory. Specifically supports 4D data sets including gated and dynamic tomographs from various vendors.</param.description>
+    <param.screenshot>${PROJECT_ROOT}\DICOM Convert Server Logo.PNG</param.screenshot>
+    <param.guid />
+    <param.installpath.string>\Univsersity of Ottawa Heart Institute\DICOMConvertServer\</param.installpath.string>
+    <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.target.install.notes />
+    <param.intermediate>${PROJECT_ROOT}\DICOMConvertServer\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\DICOMConvertServer\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\DICOMConvertServer\for_redistribution</param.output>
+    <param.logdir>${PROJECT_ROOT}\DICOMConvertServer</param.logdir>
+    <param.enable.clean.build>false</param.enable.clean.build>
+    <param.user.defined.mcr.options />
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.support.packages />
+    <param.web.mcr>false</param.web.mcr>
+    <param.package.mcr>true</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <param.native.matlab>false</param.native.matlab>
+    <param.checkbox>false</param.checkbox>
+    <param.example />
+    <param.help.text />
+    <unset>
+      <param.icon />
+      <param.icons />
+      <param.guid />
+      <param.installpath.string />
+      <param.installpath.combo />
+      <param.logo />
+      <param.target.install.notes />
+      <param.intermediate />
+      <param.files.only />
+      <param.output />
+      <param.logdir />
+      <param.enable.clean.build />
+      <param.user.defined.mcr.options />
+      <param.target.type />
+      <param.support.packages />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.windows.command.prompt />
+      <param.create.log />
+      <param.log.file />
+      <param.native.matlab />
+      <param.checkbox />
+      <param.example />
+      <param.help.text />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\dicomConvertServer.m</file>
+    </fileset.main>
+    <fileset.resources />
+    <fileset.package>
+      <file>${PROJECT_ROOT}\DICOM Convert Server User Manual.pdf</file>
+    </fileset.package>
+    <fileset.depfun>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\completeStructData.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\dispPB.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\findTracer.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\isProgressBar.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\progressBar.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\resolveSex.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\rootdir.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\setWindowOnTop.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\Stats\nanmean.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\titleCase.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\dicom\decodeTracerName.m</file>
+      <file>${PROJECT_ROOT}\DCSFinalizeData.m</file>
+      <file>${PROJECT_ROOT}\DCSInitCurrentData.m</file>
+      <file>${PROJECT_ROOT}\DCSlogmsg.m</file>
+      <file>${PROJECT_ROOT}\DCSUpdateData.m</file>
+      <file>${PROJECT_ROOT}\hdrinitdcm.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\dicom\Radiopharmaceuticals.mat</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\ReorientTool\double2twobyte.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\General Applications\ReorientTool\smooth3d.m</file>
+      <file>C:\Users\rklein\Documents\MATLAB\myoPC2007\myoPC\listfiles.m</file>
+    </fileset.depfun>
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}\DICOMConvertServer\for_testing" name="readme.txt" optional="true">C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server\DICOMConvertServer\for_testing\readme.txt</file>
+      <file location="${PROJECT_ROOT}\DICOMConvertServer\for_testing" name="splash.png" optional="false">C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server\DICOMConvertServer\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\DICOMConvertServer\for_testing" name="DICOMConvertServer.exe" optional="false">C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server\DICOMConvertServer\for_testing\DICOMConvertServer.exe</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2017b</root>
+      <toolboxes>
+        <toolbox name="gpucoder" />
+      </toolboxes>
+      <toolbox>
+        <gpucoder>
+          <enabled>true</enabled>
+        </gpucoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
