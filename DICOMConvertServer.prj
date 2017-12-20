@@ -1,9 +1,9 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration file="C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server\DICOMConvertServer.prj" location="C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server" name="DICOMConvertServer" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration build-checksum="3613325078" file="C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server\DICOMConvertServer.prj" location="C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server" name="DICOMConvertServer" preferred-package-location="C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server\DICOMConvertServer\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>DICOMConvertServer</param.appname>
     <param.icon />
     <param.icons />
-    <param.version>2.0</param.version>
+    <param.version>2.2</param.version>
     <param.authnamewatermark>Ran Klein</param.authnamewatermark>
     <param.email>rklein@toh.ca</param.email>
     <param.company>Univsersity of Ottawa Heart Institute</param.company>
@@ -24,10 +24,10 @@
     <param.user.defined.mcr.options />
     <param.target.type>subtarget.standalone</param.target.type>
     <param.support.packages />
-    <param.web.mcr>false</param.web.mcr>
-    <param.package.mcr>true</param.package.mcr>
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>false</param.package.mcr>
     <param.no.mcr>false</param.no.mcr>
-    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.web.mcr.name>DICOMConvertServer_Installer_web</param.web.mcr.name>
     <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
     <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
     <param.windows.command.prompt>true</param.windows.command.prompt>
@@ -53,8 +53,9 @@
       <param.user.defined.mcr.options />
       <param.target.type />
       <param.support.packages />
+      <param.web.mcr />
+      <param.package.mcr />
       <param.no.mcr />
-      <param.web.mcr.name />
       <param.package.mcr.name />
       <param.no.mcr.name />
       <param.windows.command.prompt />
@@ -73,26 +74,17 @@
       <file>${PROJECT_ROOT}\DICOM Convert Server User Manual.pdf</file>
     </fileset.package>
     <fileset.depfun>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\completeStructData.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\dispPB.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\findTracer.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\isProgressBar.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\progressBar.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\resolveSex.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\rootdir.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\setWindowOnTop.m</file>
       <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\Stats\nanmean.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\CommonFunctions\titleCase.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\dicom\decodeTracerName.m</file>
       <file>${PROJECT_ROOT}\DCSFinalizeData.m</file>
       <file>${PROJECT_ROOT}\DCSInitCurrentData.m</file>
       <file>${PROJECT_ROOT}\DCSlogmsg.m</file>
       <file>${PROJECT_ROOT}\DCSUpdateData.m</file>
-      <file>${PROJECT_ROOT}\hdrinitdcm.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\dicom\Radiopharmaceuticals.mat</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\ReorientTool\double2twobyte.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\General Applications\ReorientTool\smooth3d.m</file>
-      <file>C:\Users\rklein\Documents\MATLAB\myoPC2007\myoPC\listfiles.m</file>
+      <file>${PROJECT_ROOT}\decodeTracerName.m</file>
+      <file>${PROJECT_ROOT}\double2twobyte.m</file>
+      <file>${PROJECT_ROOT}\findTracer.m</file>
+      <file>${PROJECT_ROOT}\hdrInitDcm.m</file>
+      <file>${PROJECT_ROOT}\listfiles.m</file>
+      <file>${PROJECT_ROOT}\Radiopharmaceuticals.mat</file>
     </fileset.depfun>
     <build-deliverables>
       <file location="${PROJECT_ROOT}\DICOMConvertServer\for_testing" name="readme.txt" optional="true">C:\Users\rklein\Documents\MATLAB\General Applications\dicom\DICOM Convert Server\DICOMConvertServer\for_testing\readme.txt</file>
