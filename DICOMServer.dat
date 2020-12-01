@@ -1,0 +1,9 @@
+% Written by setDICOMServerGUI
+% Date: 19-Mar-2018 12:48:32
+indir = C:\DICOMImport
+outdir = C:\DataStash
+tempdir = C:\DataStash\temp
+logdir = C:\DataStash\Log
+cleanup = 1
+overwrite = 0
+binaryFormat = single

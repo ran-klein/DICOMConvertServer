@@ -38,7 +38,7 @@ function varargout = setDICOMServerGUI(varargin)
 
 % Edit the above text to modify the response to help setDICOMServerGUI
 
-% Last Modified by GUIDE v2.5 23-May-2008 23:35:54
+% Last Modified by GUIDE v2.5 19-Mar-2018 12:27:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -90,6 +90,7 @@ logdir = [outdir filesep 'Log'];
 tempdir = [outdir filesep 'temp'];
 cleanup = true;
 overwrite = false;
+binaryFormat = 'single';
 
 if exist(filename(handles),'file')
 	f = fopen(filename(handles),'r');
@@ -119,6 +120,16 @@ set(handles.OutdirEdit,'string',outdir);
 set(handles.LogdirEdit,'string',logdir);
 % set(handles.CleanupCheckbox,'value',cleanup);
 set(handles.OverwriteCheckbox,'value',overwrite);
+switch lower(binaryFormat)
+	case 'double'
+		setPullDownValue(handles.BinaryFormatPopupmenu,'Double precision floating point');
+	case {'single','float'}
+		setPullDownValue(handles.BinaryFormatPopupmenu,'Single precision floating point');
+	case 'int16'
+		setPullDownValue(handles.BinaryFormatPopupmenu,'16 bit integer');
+	otherwise
+		error('Unsupported binary format detected')
+end
 
 % Update handles structure
 guidata(hObject, handles);
@@ -239,6 +250,16 @@ dicomConvertServer('start',filename(handles));
 
 function saveSettings(handles)
 f = fopen(filename(handles),'w');
+switch lower(getPullDownValue(handles.BinaryFormatPopupmenu))
+	case 'double precision floating point'
+		binaryFormat = 'double';
+	case 'single precision floating point'
+		binaryFormat = 'single';
+	case '16 bit integer'
+		binaryFormat = 'int16';
+	otherwise
+		error('Unsupported binary format detected')
+end
 fprintf(f,['%% Written by ' strrep(mfilename,'\','\\') '\n' ...
 	'%% Date: ' datestr(now) '\n',...
 	'indir = ' strrep(get(handles.IndirEdit,'String'),'\','\\') '\n',...
@@ -246,8 +267,73 @@ fprintf(f,['%% Written by ' strrep(mfilename,'\','\\') '\n' ...
 	'tempdir = ' strrep(get(handles.TempdirEdit,'String'),'\','\\') '\n',...
 	'logdir = ' strrep(get(handles.LogdirEdit,'String'),'\','\\') '\n',...
 	'cleanup = 1\n',...
-	'overwrite = ' num2str(get(handles.OverwriteCheckbox,'value'))]);
+	'overwrite = ' num2str(get(handles.OverwriteCheckbox,'value')) '\n',...
+	'binaryFormat = ' binaryFormat]);
 fclose(f);
 
 
 function OverwriteCheckbox_Callback(hObject, eventdata, handles)
+
+
+% --- Executes on selection change in BinaryFormatPopupmenu.
+function BinaryFormatPopupmenu_Callback(hObject, eventdata, handles)
+% hObject    handle to BinaryFormatPopupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns BinaryFormatPopupmenu contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from BinaryFormatPopupmenu
+
+
+% --- Executes during object creation, after setting all properties.
+function BinaryFormatPopupmenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to BinaryFormatPopupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Get value from a pulldown gui object.
+function val = getPullDownValue(h)
+values = get(h,'String');
+if isempty(values)
+	val = [];
+elseif ~iscell(values)
+	val = 1;
+else
+	val = values{min(length(values),get(h,'Value'))};
+end
+
+% --- Set value from a pulldown gui object.
+function setPullDownValue(h,val)
+values = get(h,'String'); % All possible entries
+% A string?
+if ischar(val)
+	i = find(strcmpi(values,val));
+	if isempty(i) % String does not exist in pulldown?
+		ind = str2double(val); % is string an index to the pulldown
+		if ~isempty(ind) && ind>=1 && ind<=length(values) % that is in range
+			set(h,'Value',ind)
+			set(h,'UserData',''); % no "failed attempt value"
+		else
+			set(h,'Value',1); % Set default entry
+			set(h,'UserData',val); % keep the "failed attempt value"
+		end
+	else
+		set(h,'Value',i(1));			
+		set(h,'UserData',''); % no "failed attempt value"
+	end
+else % value is a number
+	if ~isempty(val) && val>=1 && val<=length(values) % that is in range
+		set(h,'Value',val);		
+		set(h,'UserData',''); % no "failed attempt value"
+	else
+		set(h,'Value',1); % Set default entry		
+		set(h,'UserData',val); % keep the "failed attempt value"
+	end
+end

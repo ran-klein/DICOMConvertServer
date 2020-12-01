@@ -40,9 +40,10 @@ if isempty(fig) || ~ishandle(fig)
 	fig = findobj(get(0,'children'),'flat','name','DICOM Convert Server'); % recycle window
 	if isempty(fig)
 		fig = figure;
+		fig1 = fig;
 	end
 	set(fig,'name','DICOM Convert Server','numbertitle','off',...
-		'CloseRequestFcn', 'dicomConvertServer(''stop'');',... 
+		'CloseRequestFcn', 'dicomConvertServer(''stop'');',...
 		'DeleteFcn',@TerminateLog,...
 		'Units','normalized','Position',[0.2 0.2 0.6 0.6],'menubar','none','UserData','Running');
 	movegui(fig,'center');
@@ -53,19 +54,24 @@ if isempty(fig) || ~ishandle(fig)
 	strs = {'Starting DICOM Convert Server Log'};
 else
 	texth = getappdata(fig,'TextBoxHandle');
-	strs = get(texth,'string');
+	if ~isempty(texth)
+		strs = get(texth,'string');
+	end
 end
 
 %% Add a log message
 if nargin>=1
-	if flag ==2 % replace line
-		strs{end} = [datestr(clock) ' : ' str];
-	elseif flag == 1 % append to line
-		strs{end} = [strs{end},str];
-	else % new line
-		strs{length(strs)+1} = [datestr(clock) ' : ' str];
+	if isempty(strs)
+		strs{1} = [datestr(clock) ' : ' str];
+	else
+		if flag ==2 % replace line
+			strs{end} = [datestr(clock) ' : ' str];
+		elseif flag == 1 % append to line
+			strs{end} = [strs{end},str];
+		else % new line
+			strs{length(strs)+1} = [datestr(clock) ' : ' str];
+		end
 	end
-
 	set(texth,'units','points');
 	pos = get(texth,'position');
 	set(texth,'units','normalized');
@@ -74,7 +80,7 @@ if nargin>=1
 	end
 	set(texth,'String',strs);
 	drawnow;
-
+	
 	try
 		if flag==0
 			fprintf(DCSVars.logfileh,'\n%s',[datestr(clock) ' : ' str]);

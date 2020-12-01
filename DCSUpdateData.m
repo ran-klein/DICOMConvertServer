@@ -133,7 +133,11 @@ if valid
 		DCSCurrentData.chklist.table(si,fi,1) = DCSCurrentData.chklist.fileCount;
 		DCSCurrentData.chklist.table(si,fi,2) = i;
 	end
-	DCSCurrentData.chklist.files = [DCSCurrentData.chklist.files source];
+	if DCSCurrentData.chklist.useTempFiles
+		DCSCurrentData.chklist.files = [DCSCurrentData.chklist.files source];
+	else
+		DCSCurrentData.chklist.files = [DCSCurrentData.chklist.files infodcm];
+	end
 end
 
 
